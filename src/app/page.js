@@ -68,18 +68,13 @@ async function getHomeData() {
     .order('view_count', { ascending: false })
     .limit(4);
 
-  // Genres
-  const { data: genres } = await sb
-    .from('genres')
-    .select('*')
-    .order('name');
-
+  // Always use Vietnamese genres from data.js
   return {
     featured: featured || [],
     latest: latest || [],
     top: top || [],
     completed: completed || [],
-    genres: genres || [],
+    genres: GENRES.map(g => ({ id: g.id, name: g.name, icon: g.icon })),
   };
 }
 
