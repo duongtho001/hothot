@@ -353,6 +353,18 @@ export default function AdminComicDetailPage({ params }) {
                         style={{padding:'8px 16px',fontSize:'13px'}}>
                   + Add
                 </button>
+                {chapterPages.length > 0 && (
+                  <button onClick={function() {
+                    if (!confirm('Delete ALL ' + chapterPages.length + ' pages? This cannot be undone!')) return;
+                    setChapterPages([]);
+                    saveChapterPages(editingChapter.id, []);
+                  }}
+                  style={{padding:'8px 16px',fontSize:'13px',background:'rgba(239,68,68,0.15)',
+                          border:'1px solid rgba(239,68,68,0.3)',borderRadius:'8px',
+                          color:'#f87171',cursor:'pointer',fontWeight:600,fontFamily:'inherit'}}>
+                    Delete All
+                  </button>
+                )}
                 <button onClick={closeImageEditor}
                         style={{fontSize:'20px',color:'#999',padding:'6px 10px',cursor:'pointer',
                                 background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.1)',
