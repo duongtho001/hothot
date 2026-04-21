@@ -324,7 +324,7 @@ function AdminUploadInner() {
                    onClick={() => document.getElementById('cover-input').click()}>
                 <div className="upload-zone-icon">🖼️</div>
                 <div className="upload-zone-text">Click để chọn ảnh bìa</div>
-                <div className="upload-zone-hint">Tỷ lệ 3:4 (400×560px) | JPG, PNG, WebP</div>
+                <div className="upload-zone-hint">Tỷ lệ 9:16 (400×711px) | JPG, PNG, WebP</div>
                 <input id="cover-input" type="file" accept="image/*" hidden
                        onChange={e => setCoverFile(e.target.files[0])} />
               </div>
