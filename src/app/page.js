@@ -3,11 +3,40 @@ import Footer from '@/components/Footer';
 import ComicCard from '@/components/ComicCard';
 import Link from 'next/link';
 import { getServiceSupabase } from '@/lib/supabase';
+import { COMICS, GENRES, getFeaturedComics, getLatestComics, getTopComics, formatViews as fmtViews } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
 
 async function getHomeData() {
   const sb = getServiceSupabase();
+  
+  // If no Supabase configured, use mock data
+  if (!sb) {
+    return {
+      featured: getFeaturedComics().slice(0, 3).map(c => ({
+        ...c, id: c.id, slug: c.slug, title: c.title,
+        description: c.description, cover_url: c.cover,
+        view_count: c.viewCount, is_featured: c.isFeatured,
+        free_chapters: c.freeChapters, status: c.status,
+      })),
+      latest: getLatestComics(12).map(c => ({
+        ...c, id: c.id, slug: c.slug, title: c.title,
+        description: c.description, cover_url: c.cover,
+        view_count: c.viewCount, free_chapters: c.freeChapters,
+        status: c.status,
+      })),
+      top: getTopComics(10).map(c => ({
+        ...c, id: c.id, slug: c.slug, title: c.title,
+        cover_url: c.cover, view_count: c.viewCount,
+      })),
+      completed: COMICS.filter(c => c.status === 'completed').slice(0, 4).map(c => ({
+        ...c, id: c.id, slug: c.slug, title: c.title,
+        cover_url: c.cover, view_count: c.viewCount,
+        free_chapters: c.freeChapters, status: c.status,
+      })),
+      genres: GENRES.map(g => ({ id: g.id, name: g.name, icon: g.icon })),
+    };
+  }
 
   // Featured comics
   const { data: featured } = await sb
@@ -117,7 +146,7 @@ export default async function HomePage() {
               margin:'20px 0',border:'1px dashed var(--border)',
             }}>
               <div style={{fontSize:'60px',marginBottom:'16px'}}>📚</div>
-              <h2 style={{marginBottom:'8px'}}>Chào mừng đến ComicVerse!</h2>
+              <h2 style={{marginBottom:'8px'}}>Chào mừng đến Truyện Tranh AI!</h2>
               <p style={{color:'var(--text-muted)',marginBottom:'20px'}}>Chưa có truyện nào. Vào Admin để tải truyện lên.</p>
               <Link href="/admin/upload" className="btn btn-primary" style={{padding:'12px 24px'}}>
                 📤 Tải Truyện Lên

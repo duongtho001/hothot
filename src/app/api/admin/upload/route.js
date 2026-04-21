@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // POST /api/admin/upload — Upload image to Supabase Storage
 export async function POST(req) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   
   try {
     const formData = await req.formData();

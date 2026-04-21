@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // POST /api/admin/chapters — Create/update chapter with pages
 export async function POST(req) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const body = await req.json();
 
   const { comic_id, chapter_number, title, pages, is_free } = body;
@@ -36,6 +37,7 @@ export async function POST(req) {
 // DELETE /api/admin/chapters?id=xxx — Delete chapter
 export async function DELETE(req) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id');
 

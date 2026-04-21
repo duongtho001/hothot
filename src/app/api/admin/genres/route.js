@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
     const { data, error } = await sb
       .from('genres')
       .select('*')

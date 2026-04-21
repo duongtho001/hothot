@@ -15,6 +15,7 @@ function generateCode(plan) {
 // GET /api/admin/vip-codes
 export async function GET() {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const { data, error } = await sb
     .from('vip_codes')
     .select('*')
@@ -28,6 +29,7 @@ export async function GET() {
 // POST /api/admin/vip-codes — Generate new codes
 export async function POST(req) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const { plan, quantity } = await req.json();
 
   const codes = [];

@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // GET /api/admin/comics — List all comics
 export async function GET(req) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   
   try {
     const { searchParams } = new URL(req.url);
@@ -38,6 +39,7 @@ export async function GET(req) {
 // POST /api/admin/comics — Create a new comic
 export async function POST(req) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const body = await req.json();
 
   const slug = body.title

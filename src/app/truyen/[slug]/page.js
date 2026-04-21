@@ -2,9 +2,28 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { getServiceSupabase } from '@/lib/supabase';
+import { getComicBySlug, getGenreNames, GENRES } from '@/lib/data';
 
 async function getComic(slug) {
   const sb = getServiceSupabase();
+
+  // Fallback to mock data if no Supabase
+  if (!sb) {
+    const mock = getComicBySlug(slug);
+    if (!mock) return null;
+    return {
+      ...mock,
+      id: mock.id, slug: mock.slug, title: mock.title,
+      description: mock.description, cover_url: mock.cover,
+      author: mock.author, status: mock.status,
+      view_count: mock.viewCount, rating: mock.rating,
+      chapters: (mock.chapters || []).map(ch => ({
+        ...ch, chapter_number: ch.number, is_free: true,
+        view_count: ch.viewCount, created_at: ch.createdAt,
+      })),
+      genres: (mock.genres || []).map(gid => GENRES.find(g => g.id === gid)).filter(Boolean),
+    };
+  }
 
   const { data: comic, error } = await sb
     .from('comics')

@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // GET /api/admin/comics/[id] — Get single comic with chapters
 export async function GET(req, { params }) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const { id } = await params;
 
   const { data: comic, error } = await sb
@@ -35,6 +36,7 @@ export async function GET(req, { params }) {
 // PUT /api/admin/comics/[id] — Update comic
 export async function PUT(req, { params }) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const { id } = await params;
   const body = await req.json();
 
@@ -70,6 +72,7 @@ export async function PUT(req, { params }) {
 // DELETE /api/admin/comics/[id] — Delete comic
 export async function DELETE(req, { params }) {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   const { id } = await params;
 
   const { error } = await sb.from('comics').delete().eq('id', id);

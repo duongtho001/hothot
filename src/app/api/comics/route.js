@@ -4,6 +4,9 @@ import { NextResponse } from 'next/server';
 // GET /api/comics — Public: list comics OR get single comic by slug
 export async function GET(req) {
   const sb = getServiceSupabase();
+  if (!sb) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+  }
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
   const featured = searchParams.get('featured');

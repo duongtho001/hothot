@@ -2,9 +2,30 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { getServiceSupabase } from '@/lib/supabase';
+import { getComicBySlug, getChapter } from '@/lib/data';
 
 async function getChapterData(slug, chapterNum) {
   const sb = getServiceSupabase();
+  const chNum = parseInt(chapterNum);
+
+  // Fallback to mock data if no Supabase
+  if (!sb) {
+    const mock = getComicBySlug(slug);
+    if (!mock) return null;
+    const ch = getChapter(mock, chNum);
+    if (!ch) return null;
+    const allCh = mock.chapters.map(c => ({
+      chapter_number: c.number, title: c.title, is_free: true,
+    })).sort((a,b) => a.chapter_number - b.chapter_number);
+    return {
+      comic: { ...mock, cover_url: mock.cover, view_count: mock.viewCount },
+      chapter: { ...ch, chapter_number: ch.number, is_free: true, pages: ch.pages || [] },
+      allChapters: allCh,
+      isFree: true,
+      prevChapter: allCh.find(c => c.chapter_number === chNum - 1),
+      nextChapter: allCh.find(c => c.chapter_number === chNum + 1),
+    };
+  }
 
   // Get comic
   const { data: comic, error } = await sb
@@ -20,7 +41,7 @@ async function getChapterData(slug, chapterNum) {
     .from('chapters')
     .select('*')
     .eq('comic_id', comic.id)
-    .eq('chapter_number', parseInt(chapterNum))
+    .eq('chapter_number', chNum)
     .single();
 
   if (!chapter) return null;

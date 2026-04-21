@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // GET /api/admin/stats — Dashboard statistics
 export async function GET() {
   const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
   
   try {
     const [
