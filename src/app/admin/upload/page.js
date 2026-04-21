@@ -1,8 +1,8 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function AdminUploadPage() {
+function AdminUploadInner() {
   const searchParams = useSearchParams();
   const existingComicId = searchParams.get('comic_id');
 
@@ -473,5 +473,13 @@ export default function AdminUploadPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminUploadPage() {
+  return (
+    <Suspense fallback={<div style={{textAlign:'center',padding:'60px'}}>Đang tải...</div>}>
+      <AdminUploadInner />
+    </Suspense>
   );
 }
