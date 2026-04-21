@@ -27,9 +27,9 @@ function getQRUrl(amount) {
 }
 
 function getDeepLink(amount) {
-  // VietQR universal deep link — mở bất kỳ app ngân hàng nào
+  // VietQR deep link — mở app ngân hàng OCB hoặc app hỗ trợ VietQR
   const params = new URLSearchParams({
-    app: '',  // Không chỉ định app → hệ thống tự chọn
+    app: 'ocb',
     ba: ACCOUNT,
     bn: BANK_ID,
     an: ACCOUNT_NAME,
