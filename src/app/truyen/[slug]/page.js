@@ -3,6 +3,10 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { getServiceSupabase } from '@/lib/supabase';
 import { getComicBySlug, getGenreNames, GENRES } from '@/lib/data';
+import StarRating from '@/components/StarRating';
+import CommentSection from '@/components/CommentSection';
+import ShareButton from '@/components/ShareButton';
+import DailyCheckin from '@/components/DailyCheckin';
 
 async function getComic(slug) {
   const sb = getServiceSupabase();
@@ -204,8 +208,17 @@ export default async function ComicDetailPage({ params }) {
                   </div>
                 )}
               </div>
+
+              {/* Rating & Share */}
+              <div style={{display:'flex',alignItems:'center',gap:'16px',flexWrap:'wrap',marginTop:'12px'}}>
+                <StarRating comicId={comic.id} initialRating={comic.rating} />
+                <ShareButton comicId={comic.id} comicTitle={comic.title} comicSlug={comic.slug} />
+              </div>
             </div>
           </div>
+
+          {/* Daily Check-in */}
+          <DailyCheckin />
 
           {/* Chapter List */}
           {comic.chapters.length > 0 && (
@@ -242,6 +255,9 @@ export default async function ComicDetailPage({ params }) {
               </div>
             </div>
           )}
+
+          {/* Comment Section */}
+          <CommentSection comicId={comic.id} />
 
         </div>
       </main>

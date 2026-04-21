@@ -48,3 +48,30 @@ export async function DELETE(req) {
 
   return NextResponse.json({ success: true });
 }
+
+// PATCH /api/admin/chapters — Update chapter pages (image editor)
+export async function PATCH(req) {
+  const sb = getServiceSupabase();
+  if (!sb) return NextResponse.json({ error: "DB not configured" }, { status: 503 });
+
+  const body = await req.json();
+  const { id, pages, title, is_free } = body;
+
+  if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 });
+
+  const updateData = {};
+  if (pages !== undefined) updateData.pages = pages;
+  if (title !== undefined) updateData.title = title;
+  if (is_free !== undefined) updateData.is_free = is_free;
+
+  const { data, error } = await sb
+    .from('chapters')
+    .update(updateData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json({ chapter: data });
+}
