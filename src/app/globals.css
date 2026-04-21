@@ -1092,40 +1092,205 @@ ul, ol {
 }
 
 /* === Responsive === */
+
+/* Mobile Toggle Button */
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 22px;
+  padding: 6px 10px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1001;
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 0; right: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100%;
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: slideInRight 0.25s ease;
+  overflow-y: auto;
+}
+
+.mobile-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+}
+
+.mobile-search input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  width: 100%;
+  font-family: inherit;
+}
+
+.mobile-menu-item {
+  display: block;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.mobile-menu-item:hover, .mobile-menu-item:active {
+  background: var(--accent-dim);
+  color: var(--text-primary);
+}
+
+.mobile-menu-item.donate-link {
+  color: var(--accent);
+  background: rgba(245,158,11,0.1);
+  margin-top: 8px;
+  text-align: center;
+  border: 1px solid rgba(245,158,11,0.2);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* === Tablet (max 1024px) === */
 @media (max-width: 1024px) {
-  .comic-grid { grid-template-columns: repeat(4, 1fr); }
+  .comic-grid { grid-template-columns: repeat(4, 1fr) !important; }
   .two-col-layout { grid-template-columns: 1fr; }
   .ranking-panel { position: static; }
   .hero-slider { height: 300px; }
   .dropdown-menu.wide { min-width: 360px; grid-template-columns: repeat(3, 1fr); }
 }
 
+/* === Mobile Large (max 768px) === */
 @media (max-width: 768px) {
-  .comic-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .nav-menu { display: none; }
   .mobile-toggle { display: block; }
-  .search-bar { min-width: 0; flex: 1; }
+  .nav-menu { display: none; }
+  .search-bar { display: none; }
+
+  .logo { font-size: 18px; gap: 8px; }
+  .logo-icon { font-size: 24px; }
+
+  .comic-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 10px; }
+  
   .hero-slider { grid-template-columns: 1fr; height: auto; }
   .hero-sidebar { display: none; }
-  .hero-main { height: 260px; }
-  .hero-main-title { font-size: 20px; }
+  .hero-main { height: 220px; border-radius: var(--radius); }
+  .hero-main-title { font-size: 18px; }
+  .hero-main-desc { font-size: 12px; -webkit-line-clamp: 2; }
+  
   .comic-detail-header { flex-direction: column; align-items: center; text-align: center; }
-  .detail-cover { width: 180px; }
-  .detail-actions { justify-content: center; }
-  .detail-meta { justify-content: center; }
+  .detail-cover { width: 160px; }
+  .detail-actions { justify-content: center; flex-wrap: wrap; }
+  .detail-meta { justify-content: center; flex-wrap: wrap; }
   .detail-genres { justify-content: center; }
   .detail-stats { justify-content: center; }
-  .footer-content { grid-template-columns: 1fr; }
+  .detail-title { font-size: 22px; }
+  
+  .footer-content { grid-template-columns: 1fr; text-align: center; }
+  
+  .section-title { font-size: 18px; }
+  .section-header { margin-bottom: 12px; }
+  
+  .genre-pills { gap: 6px; }
+  .genre-pill { font-size: 12px; padding: 6px 10px; }
+  
+  .ranking-panel { margin-top: 24px; }
+  .ranking-item { padding: 8px 12px; }
+  
   .auth-buttons .btn span { display: none; }
   .dropdown-menu.wide { min-width: 280px; grid-template-columns: repeat(2, 1fr); }
+  
+  .container { padding: 0 12px; }
+  .page-content { padding-top: 16px; padding-bottom: 32px; }
+  
+  /* Ticker */
+  .updates-ticker { height: 28px; }
+  .ticker-label { font-size: 10px; padding: 2px 8px; }
+  .ticker-item { font-size: 11px; }
+  
+  /* Chapter list */
+  .chapter-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 6px; }
+  .chapter-item { padding: 8px 10px; font-size: 13px; }
+  
+  /* Reader */
+  .reader-header { padding: 6px 10px !important; }
+  .reader-header span { font-size: 12px !important; }
 }
 
+/* === Mobile Small (max 480px) === */
 @media (max-width: 480px) {
-  .comic-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .comic-info { padding: 6px 8px 8px; }
-  .comic-title { font-size: 12px; }
-  .comic-chapter { font-size: 10px; }
-  .section-title { font-size: 16px; }
+  .comic-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
+  .comic-info { padding: 6px 6px 8px; }
+  .comic-title { font-size: 11px; }
+  .comic-chapter { font-size: 9px; }
+  .comic-cover { border-radius: var(--radius-xs); }
+  
+  .section-title { font-size: 15px; }
+  
+  .hero-main { height: 180px; }
+  .hero-main-title { font-size: 16px; }
+  .hero-main-overlay { padding: 12px; }
+  
+  .logo { font-size: 16px; }
+  .logo-icon { font-size: 20px; }
+  
+  .header { height: 50px; }
+  .header-inner { padding: 0 10px; }
+  
+  .detail-cover { width: 130px; }
+  .detail-title { font-size: 18px; }
+  .detail-desc { font-size: 13px; }
+  
+  .btn { font-size: 12px; padding: 7px 14px; }
+  
+  .chapter-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  
+  .footer { padding: 24px 0; }
+  .footer-title { font-size: 14px; }
+  .footer-bottom { font-size: 11px; padding: 12px 0; }
+  
+  /* Donate page */
+  .donate-hero { padding: 30px 16px; }
+  .donate-title { font-size: 22px !important; }
+  .donate-reasons { grid-template-columns: 1fr; }
+  .donate-grid { grid-template-columns: 1fr; }
+  .qr-grid { grid-template-columns: 1fr; }
+  .donate-amount-pills { gap: 6px; }
+  .amount-pill { font-size: 12px; padding: 6px 12px; }
+  .thanks-counter { flex-direction: column; gap: 12px; }
 }
 
 /* === Scrollbar === */
@@ -1470,17 +1635,6 @@ ul, ol {
   border-color: var(--accent);
   color: var(--accent);
   background: var(--accent-dim);
-}
-
-/* === Responsive Donate === */
-@media (max-width: 768px) {
-  .donate-reasons { grid-template-columns: 1fr; }
-  .donate-grid { grid-template-columns: 1fr; }
-  .donate-title { font-size: 24px; }
-  .qr-grid { grid-template-columns: 1fr; }
-  .donate-amount-pills { gap: 6px; }
-  .amount-pill { font-size: 12px; padding: 6px 12px; }
-  .thanks-counter { flex-direction: column; gap: 12px; }
 }
 
 /* === Amount Pills === */

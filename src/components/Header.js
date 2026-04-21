@@ -51,6 +51,32 @@ export default function Header() {
             {mobileMenu ? '✕' : '☰'}
           </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenu && (
+          <div className="mobile-menu-overlay" onClick={() => setMobileMenu(false)}>
+            <nav className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-search">
+                <span>🔍</span>
+                <input 
+                  type="text" 
+                  placeholder="Tìm truyện..." 
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <Link href="/" className="mobile-menu-item" onClick={() => setMobileMenu(false)}>
+                🏠 Trang Chủ
+              </Link>
+              <Link href="/moi-cap-nhat" className="mobile-menu-item" onClick={() => setMobileMenu(false)}>
+                🕐 Mới Cập Nhật
+              </Link>
+              <Link href="/donate" className="mobile-menu-item donate-link" onClick={() => setMobileMenu(false)}>
+                💝 Ủng Hộ Tác Giả
+              </Link>
+            </nav>
+          </div>
+        )}
       </header>
     </>
   );
