@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 async function getHomeData() {
   const sb = getServiceSupabase();
   
-  // If no Supabase configured, use mock data
   if (!sb) {
     return {
       featured: getFeaturedComics().slice(0, 3).map(c => ({
@@ -38,37 +37,24 @@ async function getHomeData() {
     };
   }
 
-  // Featured comics
   const { data: featured } = await sb
-    .from('comics')
-    .select('*')
+    .from('comics').select('*')
     .eq('is_featured', true)
-    .order('updated_at', { ascending: false })
-    .limit(3);
+    .order('updated_at', { ascending: false }).limit(3);
 
-  // Latest comics
   const { data: latest } = await sb
-    .from('comics')
-    .select('*')
-    .order('updated_at', { ascending: false })
-    .limit(12);
+    .from('comics').select('*')
+    .order('updated_at', { ascending: false }).limit(12);
 
-  // Top viewed
   const { data: top } = await sb
-    .from('comics')
-    .select('*')
-    .order('view_count', { ascending: false })
-    .limit(10);
+    .from('comics').select('*')
+    .order('view_count', { ascending: false }).limit(10);
 
-  // Completed
   const { data: completed } = await sb
-    .from('comics')
-    .select('*')
+    .from('comics').select('*')
     .eq('status', 'completed')
-    .order('view_count', { ascending: false })
-    .limit(4);
+    .order('view_count', { ascending: false }).limit(4);
 
-  // Always use Vietnamese genres from data.js
   return {
     featured: featured || [],
     latest: latest || [],
@@ -87,23 +73,18 @@ function formatViews(n) {
 
 export default async function HomePage() {
   const { featured, latest, top, completed, genres } = await getHomeData();
-
-  // If no real data yet, show placeholder
   const hasData = latest.length > 0;
 
   return (
     <>
       <Header />
 
-      {/* Fullscreen Video Hero */}
+      {/* ===== FULLSCREEN VIDEO HERO ===== */}
       <section className="video-hero">
         <video
           className="video-hero-bg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260217_030345_246c0224-10a4-422c-b324-070b7c0eceda.mp4"
+          autoPlay muted loop playsInline
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
         />
         <div className="video-hero-overlay" />
         <div className="video-hero-content">
@@ -112,10 +93,10 @@ export default async function HomePage() {
             <span style={{opacity:0.6}}>Truyện tranh AI đầu tiên tại Việt Nam</span>
           </div>
           <h1 className="video-hero-title">
-            Truyện Tranh Tạo Bằng AI
+            Truyện Tranh<br/>Tạo Bằng <em style={{fontStyle:'italic',fontWeight:400}}>AI</em>
           </h1>
           <p className="video-hero-subtitle">
-            Khám phá kho truyện tranh đa thể loại được tạo 100% bằng trí tuệ nhân tạo. 
+            Khám phá kho truyện tranh đa thể loại được tạo 100% bằng trí tuệ nhân tạo.<br/>
             Cốt truyện hấp dẫn, hình ảnh sống động — hoàn toàn miễn phí!
           </p>
           <div style={{display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
@@ -127,48 +108,27 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+        {/* Bottom gradient fade */}
+        <div style={{position:'absolute',bottom:0,left:0,right:0,height:'120px',background:'linear-gradient(to top, var(--bg-primary), transparent)',zIndex:3,pointerEvents:'none'}} />
       </section>
 
-      <main className="page-content">
+      {/* ===== MAIN CONTENT ===== */}
+      <main className="page-content" style={{paddingTop:0}}>
         <div className="container">
-          {/* Hero Section */}
-          {featured.length > 0 ? (
-            <section className="hero-section">
-              <div className="hero-slider">
-                <Link href={`/truyen/${featured[0].slug}`} className="hero-main">
-                  {featured[0].cover_url ? (
-                    <img src={featured[0].cover_url} alt={featured[0].title} />
-                  ) : (
-                    <div style={{width:'100%',height:'100%',background:'linear-gradient(135deg,var(--accent),var(--blue))',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'80px'}}>📖</div>
-                  )}
-                  <div className="hero-main-overlay">
-                    <span className="comic-badge badge-hot">🔥 HOT</span>
-                    <h2 className="hero-main-title">{featured[0].title}</h2>
-                    <p className="hero-main-desc">{featured[0].description}</p>
-                    <span className="btn btn-primary" style={{display:'inline-flex',width:'auto'}}>
-                      Đọc Ngay →
-                    </span>
-                  </div>
-                </Link>
-                {featured.length > 1 && (
-                  <div className="hero-sidebar">
-                    {featured.slice(1, 3).map(comic => (
-                      <Link key={comic.id} href={`/truyen/${comic.slug}`} className="hero-side-card">
-                        {comic.cover_url ? (
-                          <img src={comic.cover_url} alt={comic.title} />
-                        ) : (
-                          <div style={{width:'100%',height:'100%',background:'var(--bg-surface)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'40px'}}>📖</div>
-                        )}
-                        <div className="hero-side-overlay">
-                          <h3 className="hero-side-title">{comic.title}</h3>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </section>
-          ) : !hasData ? (
+
+          {/* Genre Pills */}
+          {genres.length > 0 && (
+            <div className="genre-pills" style={{marginTop:'8px',marginBottom:'28px'}}>
+              {genres.map(g => (
+                <span key={g.id} className="genre-pill">
+                  {g.icon} {g.name}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* No data placeholder */}
+          {!hasData && (
             <section style={{
               textAlign:'center',padding:'60px 20px',
               background:'var(--bg-card)',borderRadius:'var(--radius)',
@@ -181,26 +141,32 @@ export default async function HomePage() {
                 📤 Tải Truyện Lên
               </Link>
             </section>
-          ) : null}
-
-          {/* Genre Pills */}
-          {genres.length > 0 && (
-            <div className="genre-pills">
-              {genres.slice(0, 12).map(g => (
-                <span key={g.id} className="genre-pill">
-                  {g.icon} {g.name}
-                </span>
-              ))}
-            </div>
           )}
 
-          {/* Two Column: Comics + Ranking */}
+          {/* Two Column Layout */}
           {hasData && (
             <div className="two-col-layout">
               
-              {/* Left: Latest Comics */}
+              {/* Left: Comics */}
               <div>
-                <div className="section-header">
+                {/* Featured */}
+                {featured.length > 0 && (
+                  <>
+                    <div className="section-header">
+                      <h2 className="section-title">
+                        <span className="icon">🔥</span> Truyện Nổi Bật
+                      </h2>
+                    </div>
+                    <div className="comic-grid" style={{gridTemplateColumns:'repeat(4, 1fr)'}}>
+                      {featured.map(comic => (
+                        <ComicCard key={comic.id} comic={comic} badge="hot" />
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Latest */}
+                <div className="section-header" style={{marginTop:'36px'}}>
                   <h2 className="section-title">
                     <span className="icon">🕐</span> Mới Cập Nhật
                   </h2>
@@ -215,10 +181,10 @@ export default async function HomePage() {
                   ))}
                 </div>
 
-                {/* Completed Section */}
+                {/* Completed */}
                 {completed.length > 0 && (
                   <>
-                    <div className="section-header" style={{marginTop:'40px'}}>
+                    <div className="section-header" style={{marginTop:'36px'}}>
                       <h2 className="section-title">
                         <span className="icon">✅</span> Truyện Hoàn Thành
                       </h2>
