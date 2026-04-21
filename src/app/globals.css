@@ -383,7 +383,7 @@ ul, ol {
 
 .comic-cover {
   position: relative;
-  aspect-ratio: 3/4;
+  aspect-ratio: 9/16;
   overflow: hidden;
   background: var(--bg-surface);
 }
