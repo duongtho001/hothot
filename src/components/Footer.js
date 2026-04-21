@@ -20,7 +20,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        © 2026 Truyện Tranh AI. Powered by AI 🤖 — Made with ❤️
+        © 2026 Truyện Tranh AI. Powered by AI 🤖 — Made with Đường Thọ ❤️
       </div>
     </footer>
   );
