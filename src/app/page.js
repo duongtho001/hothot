@@ -79,13 +79,8 @@ export default async function HomePage() {
     <>
       <Header />
 
-      {/* ===== FULLSCREEN VIDEO HERO ===== */}
-      <section className="video-hero">
-        <video
-          className="video-hero-bg"
-          autoPlay muted loop playsInline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
-        />
+      {/* ===== HERO BANNER ===== */}
+      <section className="video-hero" style={{backgroundImage:'url(/hero-banner.png)',backgroundSize:'cover',backgroundPosition:'center top'}}>
         <div className="video-hero-overlay" />
         <div className="video-hero-content">
           <div className="video-hero-badge">
@@ -108,7 +103,6 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
-        {/* Bottom gradient fade */}
         <div style={{position:'absolute',bottom:0,left:0,right:0,height:'120px',background:'linear-gradient(to top, var(--bg-primary), transparent)',zIndex:3,pointerEvents:'none'}} />
       </section>
 
