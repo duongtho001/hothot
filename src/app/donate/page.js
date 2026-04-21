@@ -59,13 +59,16 @@ export default function DonatePage() {
 
           {/* Bank Transfer — Main Focus */}
           <div className="donate-bank-section">
-            <div className="bank-section-badge">📲 Quét Mã QR</div>
+            <div className="bank-section-badge">📲 Quét Mã QR hoặc Bấm Chuyển Khoản</div>
             <h2 className="bank-section-title">Chuyển Khoản Ngân Hàng</h2>
             
             <div className="bank-transfer-card">
               <div className="bank-qr-side">
                 <div className="bank-qr-frame">
-                  <img src="/qr/bank_qr.png" alt="QR Ngân hàng OCB" />
+                  <img 
+                    src="https://img.vietqr.io/image/OCB-939399-compact2.png?amount=20000&addInfo=UNGHO%20TRUYENAI&accountName=TRAN%20MINH%20GIANG" 
+                    alt="QR Chuyển khoản OCB" 
+                  />
                 </div>
                 <p className="bank-qr-hint">Mở app ngân hàng → Quét mã QR</p>
               </div>
@@ -81,6 +84,14 @@ export default function DonatePage() {
 
                 <div className="bank-detail-rows">
                   <div className="bank-detail-item">
+                    <span className="bank-detail-label">Số tài khoản</span>
+                    <span className="bank-detail-value" style={{color:'#60a5fa',letterSpacing:'2px',fontSize:'16px'}}>939399</span>
+                  </div>
+                  <div className="bank-detail-item">
+                    <span className="bank-detail-label">Ngân hàng</span>
+                    <span className="bank-detail-value">OCB</span>
+                  </div>
+                  <div className="bank-detail-item">
                     <span className="bank-detail-label">Chủ tài khoản</span>
                     <span className="bank-detail-value">TRAN MINH GIANG</span>
                   </div>
@@ -90,16 +101,23 @@ export default function DonatePage() {
                   </div>
                 </div>
 
+                {/* Quick transfer buttons — opens banking app */}
                 <div className="bank-amounts">
-                  <span className="bank-amount-chip">☕ 10K</span>
-                  <span className="bank-amount-chip active">🍜 20K</span>
-                  <span className="bank-amount-chip">🎮 50K</span>
-                  <span className="bank-amount-chip">🎁 100K</span>
-                  <span className="bank-amount-chip premium">💎 Tùy tâm</span>
+                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=10000&info=UNGHO+TRUYENAI" 
+                     target="_blank" rel="noopener" className="bank-amount-chip clickable">☕ 10K</a>
+                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=20000&info=UNGHO+TRUYENAI" 
+                     target="_blank" rel="noopener" className="bank-amount-chip clickable active">🍜 20K</a>
+                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=50000&info=UNGHO+TRUYENAI" 
+                     target="_blank" rel="noopener" className="bank-amount-chip clickable">🎮 50K</a>
+                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=100000&info=UNGHO+TRUYENAI" 
+                     target="_blank" rel="noopener" className="bank-amount-chip clickable">🎁 100K</a>
+                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&info=UNGHO+TRUYENAI" 
+                     target="_blank" rel="noopener" className="bank-amount-chip clickable premium">💎 Tùy tâm</a>
                 </div>
 
                 <p className="bank-note">
-                  💡 Nhập nội dung CK: <strong>UNGHO TRUYENAI</strong> để chúng mình biết bạn ủng hộ nhé!
+                  👆 <strong>Bấm vào số tiền</strong> để tự động mở app ngân hàng chuyển khoản!<br/>
+                  💡 Nội dung CK: <strong>UNGHO TRUYENAI</strong>
                 </p>
               </div>
             </div>

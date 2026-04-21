@@ -1715,6 +1715,22 @@ ul, ol {
   border-color: rgba(139,92,246,0.3);
   color: #a78bfa;
 }
+.bank-amount-chip.clickable {
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+}
+.bank-amount-chip.clickable::after {
+  content: '→';
+  font-size: 10px;
+  margin-left: 4px;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.bank-amount-chip.clickable:hover::after {
+  opacity: 1;
+  margin-left: 6px;
+}
 
 .bank-note {
   font-size: 13px; color: var(--text-secondary);
