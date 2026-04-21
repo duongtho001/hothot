@@ -94,9 +94,43 @@ export default async function HomePage() {
   return (
     <>
       <Header />
+
+      {/* Fullscreen Video Hero */}
+      <section className="video-hero">
+        <video
+          className="video-hero-bg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260217_030345_246c0224-10a4-422c-b324-070b7c0eceda.mp4"
+        />
+        <div className="video-hero-overlay" />
+        <div className="video-hero-content">
+          <div className="video-hero-badge">
+            <span className="video-hero-dot" />
+            <span style={{opacity:0.6}}>Truyện tranh AI đầu tiên tại Việt Nam</span>
+          </div>
+          <h1 className="video-hero-title">
+            Truyện Tranh Tạo Bằng AI
+          </h1>
+          <p className="video-hero-subtitle">
+            Khám phá kho truyện tranh đa thể loại được tạo 100% bằng trí tuệ nhân tạo. 
+            Cốt truyện hấp dẫn, hình ảnh sống động — hoàn toàn miễn phí!
+          </p>
+          <div style={{display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
+            <Link href="/moi-cap-nhat" className="btn btn-primary" style={{padding:'14px 32px',fontSize:'15px'}}>
+              📖 Đọc Ngay
+            </Link>
+            <Link href="/donate" className="btn btn-ghost" style={{padding:'14px 32px',fontSize:'15px',borderColor:'rgba(255,255,255,0.3)',color:'#fff'}}>
+              💝 Ủng Hộ
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <main className="page-content">
         <div className="container">
-          
           {/* Hero Section */}
           {featured.length > 0 ? (
             <section className="hero-section">

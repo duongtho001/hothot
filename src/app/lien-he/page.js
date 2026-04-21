@@ -23,23 +23,16 @@ export default function ContactPage() {
                 {
                   icon: '💬',
                   title: 'Zalo',
-                  desc: 'Chat trực tiếp với tác giả',
-                  link: 'https://zalo.me',
+                  desc: '0934415387 — Đường Thọ',
+                  link: 'https://zalo.me/0934415387',
                   color: '#0068ff',
                 },
                 {
                   icon: '📧',
                   title: 'Email',
-                  desc: 'duongtho001@gmail.com',
-                  link: 'mailto:duongtho001@gmail.com',
+                  desc: 'duongthovpn@gmail.com',
+                  link: 'mailto:duongthovpn@gmail.com',
                   color: '#ef4444',
-                },
-                {
-                  icon: '🐙',
-                  title: 'GitHub',
-                  desc: 'duongtho001',
-                  link: 'https://github.com/duongtho001',
-                  color: '#8b5cf6',
                 },
               ].map((item, i) => (
                 <a key={i} href={item.link} target="_blank" rel="noopener noreferrer" style={{
