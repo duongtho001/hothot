@@ -1,12 +1,47 @@
+'use client';
+import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export const metadata = {
-  title: 'Ủng Hộ — Truyện Tranh AI',
-  description: 'Ủng hộ để tạo thêm nhiều truyện tranh AI chất lượng cao miễn phí!',
-};
+const BANK_ID = 'OCB';      // Mã ngân hàng VietQR
+const ACCOUNT = '939399';
+const ACCOUNT_NAME = 'TRAN MINH GIANG';
+const MEMO = 'UNGHO TRUYENAI';
+
+const AMOUNTS = [
+  { label: '☕ 10K',  value: 10000 },
+  { label: '🍜 20K',  value: 20000 },
+  { label: '🎮 50K',  value: 50000 },
+  { label: '🎁 100K', value: 100000 },
+  { label: '💎 Tùy tâm', value: 0 },
+];
+
+function getQRUrl(amount) {
+  const base = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT}-compact2.png`;
+  const params = new URLSearchParams({
+    accountName: ACCOUNT_NAME,
+    addInfo: MEMO,
+  });
+  if (amount > 0) params.set('amount', amount.toString());
+  return `${base}?${params.toString()}`;
+}
+
+function getDeepLink(amount) {
+  // VietQR universal deep link — mở bất kỳ app ngân hàng nào
+  const params = new URLSearchParams({
+    app: '',  // Không chỉ định app → hệ thống tự chọn
+    ba: ACCOUNT,
+    bn: BANK_ID,
+    an: ACCOUNT_NAME,
+    info: MEMO,
+  });
+  if (amount > 0) params.set('am', amount.toString());
+  return `https://dl.vietqr.io/pay?${params.toString()}`;
+}
 
 export default function DonatePage() {
+  const [selectedAmount, setSelectedAmount] = useState(20000);
+
   return (
     <>
       <Header />
@@ -57,20 +92,25 @@ export default function DonatePage() {
             </div>
           </div>
 
-          {/* Bank Transfer — Main Focus */}
+          {/* Bank Transfer */}
           <div className="donate-bank-section">
-            <div className="bank-section-badge">📲 Quét Mã QR hoặc Bấm Chuyển Khoản</div>
+            <div className="bank-section-badge">📲 Quét QR hoặc Bấm Chuyển Khoản</div>
             <h2 className="bank-section-title">Chuyển Khoản Ngân Hàng</h2>
             
             <div className="bank-transfer-card">
               <div className="bank-qr-side">
                 <div className="bank-qr-frame">
                   <img 
-                    src="https://img.vietqr.io/image/OCB-939399-compact2.png?amount=20000&addInfo=UNGHO%20TRUYENAI&accountName=TRAN%20MINH%20GIANG" 
-                    alt="QR Chuyển khoản OCB" 
+                    src={getQRUrl(selectedAmount)} 
+                    alt="QR Chuyển khoản OCB"
+                    key={selectedAmount}
                   />
                 </div>
-                <p className="bank-qr-hint">Mở app ngân hàng → Quét mã QR</p>
+                <p className="bank-qr-hint">
+                  {selectedAmount > 0 
+                    ? `Quét QR — ${(selectedAmount/1000).toFixed(0)}K VNĐ` 
+                    : 'Quét QR — Nhập số tiền tùy ý'}
+                </p>
               </div>
               
               <div className="bank-details-side">
@@ -101,23 +141,42 @@ export default function DonatePage() {
                   </div>
                 </div>
 
-                {/* Quick transfer buttons — opens banking app */}
-                <div className="bank-amounts">
-                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=10000&info=UNGHO+TRUYENAI" 
-                     target="_blank" rel="noopener" className="bank-amount-chip clickable">☕ 10K</a>
-                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=20000&info=UNGHO+TRUYENAI" 
-                     target="_blank" rel="noopener" className="bank-amount-chip clickable active">🍜 20K</a>
-                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=50000&info=UNGHO+TRUYENAI" 
-                     target="_blank" rel="noopener" className="bank-amount-chip clickable">🎮 50K</a>
-                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&am=100000&info=UNGHO+TRUYENAI" 
-                     target="_blank" rel="noopener" className="bank-amount-chip clickable">🎁 100K</a>
-                  <a href="https://dl.vietqr.io/pay?app=ocb&ba=939399&bn=OCB&an=TRAN+MINH+GIANG&info=UNGHO+TRUYENAI" 
-                     target="_blank" rel="noopener" className="bank-amount-chip clickable premium">💎 Tùy tâm</a>
+                {/* Chọn số tiền — QR thay đổi theo */}
+                <div>
+                  <p style={{fontSize:'12px',color:'var(--text-muted)',marginBottom:'8px'}}>Chọn số tiền:</p>
+                  <div className="bank-amounts">
+                    {AMOUNTS.map(a => (
+                      <button 
+                        key={a.value}
+                        className={`bank-amount-chip clickable ${selectedAmount === a.value ? 'active' : ''} ${a.value === 0 ? 'premium' : ''}`}
+                        onClick={() => setSelectedAmount(a.value)}
+                      >
+                        {a.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
+                {/* NÚT CHUYỂN KHOẢN CHÍNH */}
+                <a 
+                  href={getDeepLink(selectedAmount)}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-transfer-now"
+                >
+                  <span className="btn-transfer-icon">🏦</span>
+                  <span>
+                    <span className="btn-transfer-text">Chuyển khoản ngay</span>
+                    <span className="btn-transfer-sub">
+                      {selectedAmount > 0 
+                        ? `${(selectedAmount/1000).toFixed(0)},000 VNĐ — Mở app ngân hàng` 
+                        : 'Mở app ngân hàng — Nhập số tiền tùy ý'}
+                    </span>
+                  </span>
+                </a>
+
                 <p className="bank-note">
-                  👆 <strong>Bấm vào số tiền</strong> để tự động mở app ngân hàng chuyển khoản!<br/>
-                  💡 Nội dung CK: <strong>UNGHO TRUYENAI</strong>
+                  👆 Bấm <strong>Chuyển khoản ngay</strong> → Tự mở app ngân hàng với thông tin đã điền sẵn!
                 </p>
               </div>
             </div>

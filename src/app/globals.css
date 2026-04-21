@@ -1732,6 +1732,63 @@ ul, ol {
   margin-left: 6px;
 }
 
+/* Transfer Button — Main CTA */
+.btn-transfer-now {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 14px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+}
+.btn-transfer-now::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  animation: transferShimmer 3s ease-in-out infinite;
+}
+@keyframes transferShimmer {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+.btn-transfer-now:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(16,185,129,0.4);
+  background: linear-gradient(135deg, #34d399, #10b981);
+}
+.btn-transfer-now:active {
+  transform: translateY(0);
+}
+.btn-transfer-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.btn-transfer-text {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+.btn-transfer-sub {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+
 .bank-note {
   font-size: 13px; color: var(--text-secondary);
   line-height: 1.6;
