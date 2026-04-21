@@ -99,11 +99,12 @@ export default function DonatePage() {
             
             <div className="bank-transfer-card">
               <div className="bank-qr-side">
-                <div className="bank-qr-frame">
+              <div className="bank-qr-frame">
                   <img 
                     src={getQRUrl(selectedAmount)} 
                     alt="QR Chuyển khoản OCB"
                     key={selectedAmount}
+                    id="qr-image"
                   />
                 </div>
                 <p className="bank-qr-hint">
@@ -111,6 +112,23 @@ export default function DonatePage() {
                     ? `Quét QR — ${(selectedAmount/1000).toFixed(0)}K VNĐ` 
                     : 'Quét QR — Nhập số tiền tùy ý'}
                 </p>
+                <button 
+                  className="btn-download-qr"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(getQRUrl(selectedAmount));
+                      const blob = await res.blob();
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `QR_OCB_939399_${selectedAmount > 0 ? selectedAmount : 'tuytam'}.png`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    } catch { alert('Không tải được QR, thử lại!'); }
+                  }}
+                >
+                  📥 Tải mã QR về
+                </button>
               </div>
               
               <div className="bank-details-side">
