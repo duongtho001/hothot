@@ -52,32 +52,46 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu Dropdown */}
-        {mobileMenu && (
-          <div className="mobile-menu-overlay" onClick={() => setMobileMenu(false)}>
-            <nav className="mobile-menu" onClick={(e) => e.stopPropagation()}>
-              <div className="mobile-search">
-                <span>🔍</span>
-                <input 
-                  type="text" 
-                  placeholder="Tìm truyện..." 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-              <Link href="/" className="mobile-menu-item" onClick={() => setMobileMenu(false)}>
-                🏠 Trang Chủ
-              </Link>
-              <Link href="/moi-cap-nhat" className="mobile-menu-item" onClick={() => setMobileMenu(false)}>
-                🕐 Mới Cập Nhật
-              </Link>
-              <Link href="/donate" className="mobile-menu-item donate-link" onClick={() => setMobileMenu(false)}>
-                💝 Ủng Hộ Tác Giả
-              </Link>
-            </nav>
-          </div>
-        )}
       </header>
+
+      {/* Mobile Menu — Outside header for proper z-index */}
+      {mobileMenu && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenu(false)}>
+          <nav className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'16px'}}>
+              <span style={{fontSize:'16px',fontWeight:700,color:'var(--text-primary)'}}>📖 Menu</span>
+              <button 
+                onClick={() => setMobileMenu(false)}
+                style={{
+                  background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.1)',
+                  borderRadius:'8px',padding:'6px 10px',cursor:'pointer',
+                  fontSize:'18px',color:'var(--text-muted)'
+                }}>
+                ✕
+              </button>
+            </div>
+            <div className="mobile-search">
+              <span>🔍</span>
+              <input 
+                type="text" 
+                placeholder="Tìm truyện..." 
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <Link href="/" className="mobile-menu-item" onClick={() => setMobileMenu(false)}>
+              🏠 Trang Chủ
+            </Link>
+            <Link href="/moi-cap-nhat" className="mobile-menu-item" onClick={() => setMobileMenu(false)}>
+              🕐 Mới Cập Nhật
+            </Link>
+            <Link href="/donate" className="mobile-menu-item donate-link" onClick={() => setMobileMenu(false)}>
+              💝 Ủng Hộ Tác Giả
+            </Link>
+          </nav>
+        </div>
+      )}
     </>
   );
 }
