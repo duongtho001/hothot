@@ -330,29 +330,32 @@ export default function AdminComicDetailPage({ params }) {
       {/* === Chapter Image Editor Modal === */}
       {editingChapter && (
         <div style={{
-          position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:10000,
-          display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
+          position:'fixed',inset:0,background:'rgba(0,0,0,0.85)',zIndex:10000,
+          display:'flex',alignItems:'center',justifyContent:'center',padding:'16px'
         }} onClick={(e) => e.target === e.currentTarget && closeImageEditor()}>
           <div style={{
-            background:'var(--bg-card)',borderRadius:'var(--radius)',
-            width:'100%',maxWidth:'900px',maxHeight:'90vh',overflow:'hidden',
-            display:'flex',flexDirection:'column',border:'1px solid var(--border)'
+            background:'#1a1a2e',borderRadius:'16px',
+            width:'100%',maxWidth:'960px',maxHeight:'92vh',overflow:'hidden',
+            display:'flex',flexDirection:'column',border:'1px solid rgba(255,255,255,0.1)'
           }}>
             {/* Modal Header */}
             <div style={{
-              padding:'16px 20px',borderBottom:'1px solid var(--border)',
-              display:'flex',justifyContent:'space-between',alignItems:'center'
+              padding:'16px 20px',borderBottom:'1px solid rgba(255,255,255,0.08)',
+              display:'flex',justifyContent:'space-between',alignItems:'center',
+              background:'rgba(0,0,0,0.3)'
             }}>
-              <h3 style={{margin:0,fontWeight:700}}>
+              <h3 style={{margin:0,fontWeight:700,fontSize:'16px'}}>
                 🖼️ Chỉnh sửa ảnh — Chương {editingChapter.chapter_number}
               </h3>
-              <div style={{display:'flex',gap:'8px'}}>
+              <div style={{display:'flex',gap:'8px',alignItems:'center'}}>
                 <button className="btn btn-primary" onClick={handleAddImage}
-                        style={{padding:'6px 16px',fontSize:'13px'}}>
+                        style={{padding:'8px 16px',fontSize:'13px'}}>
                   ➕ Thêm Ảnh
                 </button>
                 <button onClick={closeImageEditor}
-                        style={{fontSize:'24px',color:'var(--text-muted)',padding:'4px',cursor:'pointer',background:'none',border:'none'}}>
+                        style={{fontSize:'20px',color:'#999',padding:'6px 10px',cursor:'pointer',
+                                background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.1)',
+                                borderRadius:'8px'}}>
                   ✕
                 </button>
               </div>
@@ -360,77 +363,122 @@ export default function AdminComicDetailPage({ params }) {
 
             {/* Image Grid */}
             <div style={{
-              padding:'20px',overflowY:'auto',flex:1,
-              display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(180px,1fr))',gap:'16px'
+              padding:'16px',overflowY:'auto',flex:1,
+              display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:'12px'
             }}>
               {chapterPages.length === 0 ? (
-                <div style={{gridColumn:'1/-1',textAlign:'center',padding:'60px 20px',color:'var(--text-muted)'}}>
-                  <p style={{fontSize:'36px',marginBottom:'8px'}}>🖼️</p>
+                <div style={{gridColumn:'1/-1',textAlign:'center',padding:'60px 20px',color:'#888'}}>
+                  <p style={{fontSize:'48px',marginBottom:'8px'}}>🖼️</p>
                   <p>Chương này chưa có ảnh</p>
                   <button className="btn btn-primary" onClick={handleAddImage}
-                          style={{marginTop:'12px',padding:'8px 20px'}}>
+                          style={{marginTop:'12px',padding:'10px 24px'}}>
                     ➕ Tải Ảnh Lên
                   </button>
                 </div>
               ) : chapterPages.map((url, idx) => (
-                <div key={idx} style={{
-                  position:'relative',borderRadius:'var(--radius-sm)',overflow:'hidden',
-                  border:'1px solid var(--border)',background:'var(--bg-surface)',
-                  transition:'all 0.2s'
+                <div key={`${idx}-${url}`} style={{
+                  borderRadius:'10px',overflow:'hidden',
+                  border:'1px solid rgba(255,255,255,0.08)',
+                  background:'#111',
                 }}>
-                  {/* Page Number Badge */}
-                  <div style={{
-                    position:'absolute',top:'6px',left:'6px',zIndex:2,
-                    background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 8px',
-                    borderRadius:'4px',fontSize:'11px',fontWeight:700
-                  }}>
-                    Trang {idx + 1}
+                  {/* Page Number + Image */}
+                  <div style={{position:'relative'}}>
+                    <div style={{
+                      position:'absolute',top:'6px',left:'6px',zIndex:2,
+                      background:'rgba(0,0,0,0.8)',color:'#fff',padding:'3px 10px',
+                      borderRadius:'6px',fontSize:'11px',fontWeight:700,
+                      backdropFilter:'blur(4px)'
+                    }}>
+                      Trang {idx + 1}
+                    </div>
+
+                    {/* Image with error handling */}
+                    <img 
+                      src={url} 
+                      alt={`Trang ${idx+1}`}
+                      style={{width:'100%',aspectRatio:'2/3',objectFit:'cover',display:'block',background:'#222'}}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                    <div style={{
+                      display:'none',width:'100%',aspectRatio:'2/3',
+                      background:'#1a1a2e',alignItems:'center',justifyContent:'center',
+                      flexDirection:'column',color:'#666',fontSize:'12px',gap:'4px'
+                    }}>
+                      <span style={{fontSize:'24px'}}>⚠️</span>
+                      <span>Ảnh lỗi</span>
+                      <span style={{fontSize:'10px',color:'#444',wordBreak:'break-all',padding:'0 8px',textAlign:'center'}}>
+                        {url?.substring(0, 40)}...
+                      </span>
+                    </div>
+
+                    {/* Uploading overlay */}
+                    {uploadingIdx === idx && (
+                      <div style={{
+                        position:'absolute',inset:0,background:'rgba(0,0,0,0.7)',
+                        display:'flex',alignItems:'center',justifyContent:'center',
+                        color:'#f59e0b',fontSize:'32px'
+                      }}>
+                        ⏳
+                      </div>
+                    )}
                   </div>
 
-                  {/* Image */}
-                  <img src={url} alt={`Trang ${idx+1}`}
-                       style={{width:'100%',aspectRatio:'2/3',objectFit:'cover',display:'block'}} />
-
-                  {/* Uploading overlay */}
-                  {uploadingIdx === idx && (
-                    <div style={{
-                      position:'absolute',inset:0,background:'rgba(0,0,0,0.7)',
-                      display:'flex',alignItems:'center',justifyContent:'center',
-                      color:'var(--accent)',fontSize:'24px'
-                    }}>
-                      ⏳
-                    </div>
-                  )}
-
-                  {/* Actions */}
+                  {/* Action Buttons — Clear & Big */}
                   <div style={{
-                    display:'flex',gap:'4px',padding:'6px',justifyContent:'center',
-                    background:'rgba(0,0,0,0.4)'
+                    display:'grid',gridTemplateColumns:'1fr 1fr 1fr 1fr',gap:'2px',
+                    background:'rgba(0,0,0,0.3)',padding:'4px'
                   }}>
-                    <button onClick={() => handleMoveImage(idx, -1)} disabled={idx === 0}
-                            style={{padding:'4px 8px',fontSize:'12px',cursor:'pointer',
-                                    background:'var(--bg-surface)',border:'1px solid var(--border)',
-                                    borderRadius:'4px',color:'var(--text-secondary)',
-                                    opacity: idx === 0 ? 0.3 : 1}}>
+                    <button 
+                      onClick={() => handleMoveImage(idx, -1)} 
+                      disabled={idx === 0}
+                      title="Di chuyển lên"
+                      style={{
+                        padding:'8px 0',fontSize:'14px',cursor: idx === 0 ? 'default' : 'pointer',
+                        background: idx === 0 ? 'transparent' : 'rgba(59,130,246,0.15)',
+                        border:'none',borderRadius:'6px',
+                        color: idx === 0 ? '#333' : '#60a5fa',
+                        opacity: idx === 0 ? 0.3 : 1,
+                        transition:'all 0.15s'
+                      }}>
                       ⬆
                     </button>
-                    <button onClick={() => handleMoveImage(idx, 1)} disabled={idx === chapterPages.length - 1}
-                            style={{padding:'4px 8px',fontSize:'12px',cursor:'pointer',
-                                    background:'var(--bg-surface)',border:'1px solid var(--border)',
-                                    borderRadius:'4px',color:'var(--text-secondary)',
-                                    opacity: idx === chapterPages.length - 1 ? 0.3 : 1}}>
+                    <button 
+                      onClick={() => handleMoveImage(idx, 1)} 
+                      disabled={idx === chapterPages.length - 1}
+                      title="Di chuyển xuống"
+                      style={{
+                        padding:'8px 0',fontSize:'14px',cursor: idx === chapterPages.length-1 ? 'default' : 'pointer',
+                        background: idx === chapterPages.length-1 ? 'transparent' : 'rgba(59,130,246,0.15)',
+                        border:'none',borderRadius:'6px',
+                        color: idx === chapterPages.length-1 ? '#333' : '#60a5fa',
+                        opacity: idx === chapterPages.length-1 ? 0.3 : 1,
+                        transition:'all 0.15s'
+                      }}>
                       ⬇
                     </button>
-                    <button onClick={() => handleReplaceImage(idx)}
-                            style={{padding:'4px 8px',fontSize:'12px',cursor:'pointer',
-                                    background:'var(--purple-dim)',border:'1px solid rgba(139,92,246,0.3)',
-                                    borderRadius:'4px',color:'var(--purple)'}}>
+                    <button 
+                      onClick={() => handleReplaceImage(idx)}
+                      title="Thay ảnh"
+                      style={{
+                        padding:'8px 0',fontSize:'14px',cursor:'pointer',
+                        background:'rgba(139,92,246,0.15)',
+                        border:'none',borderRadius:'6px',color:'#a78bfa',
+                        transition:'all 0.15s'
+                      }}>
                       🔄
                     </button>
-                    <button onClick={() => handleDeleteImage(idx)}
-                            style={{padding:'4px 8px',fontSize:'12px',cursor:'pointer',
-                                    background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',
-                                    borderRadius:'4px',color:'var(--red)'}}>
+                    <button 
+                      onClick={() => handleDeleteImage(idx)}
+                      title="Xoá trang"
+                      style={{
+                        padding:'8px 0',fontSize:'14px',cursor:'pointer',
+                        background:'rgba(239,68,68,0.15)',
+                        border:'none',borderRadius:'6px',color:'#f87171',
+                        transition:'all 0.15s'
+                      }}>
                       🗑
                     </button>
                   </div>
@@ -440,12 +488,12 @@ export default function AdminComicDetailPage({ params }) {
 
             {/* Footer */}
             <div style={{
-              padding:'12px 20px',borderTop:'1px solid var(--border)',
+              padding:'12px 20px',borderTop:'1px solid rgba(255,255,255,0.08)',
               display:'flex',justifyContent:'space-between',alignItems:'center',
-              fontSize:'13px',color:'var(--text-muted)'
+              fontSize:'13px',color:'#888',background:'rgba(0,0,0,0.3)'
             }}>
               <span>Tổng: {chapterPages.length} trang</span>
-              <span>Nhấn vào 🔄 để thay ảnh, ⬆⬇ để đổi thứ tự, 🗑 để xóa</span>
+              <span>⬆⬇ Đổi thứ tự &nbsp;|&nbsp; 🔄 Thay ảnh &nbsp;|&nbsp; 🗑 Xoá</span>
             </div>
           </div>
         </div>
