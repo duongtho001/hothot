@@ -24,7 +24,7 @@ export default function Header() {
         <div className="header-inner">
           {/* Logo */}
           <Link href="/" className="logo">
-            <span className="logo-icon">🎨</span>
+            <img src="/logo.png" alt="Logo" className="logo-img" />
             <span>Truyện Tranh AI</span>
           </Link>
 

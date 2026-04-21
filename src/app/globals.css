@@ -252,6 +252,13 @@ ul, ol {
   font-size: 28px;
 }
 
+.logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 /* Nav Menu */
 .nav-menu {
   display: flex;
