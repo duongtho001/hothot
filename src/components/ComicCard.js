@@ -14,6 +14,8 @@ export default function ComicCard({ comic, badge }) {
     'vip': { label: '💎 VIP', className: 'badge-vip' },
   };
   const b = badgeMap[badge];
+  const views = comic.view_count || comic.viewCount || 0;
+  const desc = comic.description || '';
 
   return (
     <Link href={`/truyen/${comic.slug}`} className="comic-card">
@@ -25,15 +27,17 @@ export default function ComicCard({ comic, badge }) {
         )}
         {b && <span className={`comic-badge ${b.className}`}>{b.label}</span>}
         <div className="comic-card-overlay">
-          <span className="comic-chapter">
-            👁 {formatViews(comic.view_count || comic.viewCount)}
-          </span>
+          <span className="comic-card-views">👁 {formatViews(views)}</span>
         </div>
       </div>
       <div className="comic-card-info">
         <h3 className="comic-card-title">{comic.title}</h3>
+        {desc && (
+          <p className="comic-card-desc">{desc}</p>
+        )}
         <div className="comic-card-meta">
-          <span>{comic.author}</span>
+          <span className="comic-card-author">{comic.author || 'AI Studio'}</span>
+          {views > 0 && <span className="comic-card-viewcount">👁 {formatViews(views)}</span>}
         </div>
       </div>
     </Link>
