@@ -106,6 +106,58 @@ export default async function HomePage() {
         <div style={{position:'absolute',bottom:0,left:0,right:0,height:'120px',background:'linear-gradient(to top, var(--bg-primary), transparent)',zIndex:3,pointerEvents:'none'}} />
       </section>
 
+      {/* ===== ANNOUNCEMENT BANNER ===== */}
+      <section className="announcement-banner">
+        <div className="container">
+          <div className="announcement-inner">
+            {/* Main notice */}
+            <div className="announcement-hero-row">
+              <div className="announcement-icon-pulse">🤖</div>
+              <div>
+                <h2 className="announcement-headline">100% AI — Từ Câu Chuyện Đến Hình Vẽ Đến Website</h2>
+                <p className="announcement-sub">Tất cả hình ảnh do AI vẽ và tốn nhiều thời gian để tạo. Nếu có lỗi, mong mọi người hoan hỷ 🙏</p>
+              </div>
+            </div>
+
+            {/* Feature pills */}
+            <div className="announcement-pills">
+              <div className="announcement-pill pill-free">
+                <span className="pill-icon">📖</span>
+                <span>Đọc Miễn Phí</span>
+              </div>
+              <div className="announcement-pill pill-noads">
+                <span className="pill-icon">🚫</span>
+                <span>Cam Kết Không Quảng Cáo</span>
+              </div>
+              <div className="announcement-pill pill-ai">
+                <span className="pill-icon">🎨</span>
+                <span>100% AI Sáng Tạo</span>
+              </div>
+            </div>
+
+            {/* Contact & Collab row */}
+            <div className="announcement-contact-row">
+              <a href="https://zalo.me/0934415387" target="_blank" rel="noopener noreferrer" className="announcement-contact-card">
+                <div className="contact-card-icon" style={{background:'rgba(0,104,255,0.15)',color:'#4da6ff'}}>💬</div>
+                <div>
+                  <div className="contact-card-title">Góp ý? Gửi tin nhắn Zalo cho Admin</div>
+                  <div className="contact-card-desc">Mọi phản hồi đều được trân trọng ❤️</div>
+                </div>
+                <span className="contact-arrow">→</span>
+              </a>
+              <a href="/lien-he" className="announcement-contact-card">
+                <div className="contact-card-icon" style={{background:'rgba(139,92,246,0.15)',color:'#a78bfa'}}>🤝</div>
+                <div>
+                  <div className="contact-card-title">Có ý tưởng hay muốn hợp tác?</div>
+                  <div className="contact-card-desc">Liên hệ ngay — cùng nhau tạo nên điều tuyệt vời!</div>
+                </div>
+                <span className="contact-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== MAIN CONTENT ===== */}
       <main className="page-content" style={{paddingTop:0}}>
         <div className="container">
